@@ -31,3 +31,11 @@ def test_invalid_weight():
         json={"weight_kg": -5, "program": "fat-loss"}
     )
     assert response.status_code == 400
+
+def test_mobility_program():
+    client = app.test_client()
+
+    response = client.get("/programs")
+
+    assert response.status_code == 200
+    assert "mobility" in response.json["programs"]
