@@ -5,7 +5,8 @@ app = Flask(__name__)
 PROGRAMS = {
     "fat-loss": 22,
     "muscle-gain": 35,
-    "beginner": 26
+    "beginner": 26,
+    "mobility": 20
 }
 
 @app.route("/")
@@ -22,7 +23,7 @@ def programs():
 
 @app.route("/release")
 def release():
-    return jsonify(version="1.0.0", application="ACEest Fitness")
+    return jsonify(version="1.1.0", application="ACEest Fitness")
 
 @app.route("/calculate-calories", methods=["POST"])
 def calculate_calories():
