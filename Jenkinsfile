@@ -59,6 +59,31 @@ pipeline {
                 '''
             }
         }
+
+
+        stage('Publish Docker Image') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-aceest',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_TOKEN'
+                    )
+                ]) {
+                    sh '''
+                        set +x
+                        printf '%s' "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin
+
+                        docker tag aceest-fitness:jenkins-build \
+                          "$DOCKER_USER/aceest-fitness:ci-${BUILD_NUMBER}"
+
+                        docker push "$DOCKER_USER/aceest-fitness:ci-${BUILD_NUMBER}"
+
+                        docker logout
+                    '''
+                }
+            }
+        }
     }
 
     post {
